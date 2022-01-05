@@ -6,7 +6,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.text-align-start{
+  text-align: left;
+}
+.full-circle{
+  border-radius: 50%;
+}
+.material-icons{
+  color: #828282;
+}
+.header-icons{
+  color: #4F4F4F !important;
+}
+.logout{
+  color: #EB5757 !important;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
