@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watchAll --verbose",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "mongoose": "^6.1.5"
   },
   "devDependencies": {
+    "mockingoose": "^2.15.2",
     "nodemon": "^2.0.15"
   }
 }

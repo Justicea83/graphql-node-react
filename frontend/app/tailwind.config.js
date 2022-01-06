@@ -30,6 +30,9 @@ module.exports = {
             theme: {
                 maxWidth: {
                     '1/2': '50%',
+                },
+                background:{
+                    'primary-blue': '#2E80ED'
                 }
             }
         },

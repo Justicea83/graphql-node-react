@@ -49,11 +49,11 @@ export default function Header() {
                                     <Menu as="div" className="ml-3 relative">
                                         <div>
                                             <Menu.Button
-                                                className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                className="max-w-xs dark:bg-black bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                 <span className="sr-only">Open user menu</span>
                                                 <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt=""/>
-                                                <p className="text-sm font-bold mx-2">{user.name}</p>
-                                                <span className="material-icons header-icons">{isActive ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
+                                                <p className="text-sm dark:text-white font-bold mx-2">{user.name}</p>
+                                                <span className="material-icons  dark:text-white ">{isActive ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
                                             </Menu.Button>
                                         </div>
                                         <Transition beforeEnter={() => setIsActive(true)} afterLeave={() => setIsActive(false)}
@@ -98,7 +98,7 @@ export default function Header() {
                                 <div className="-mr-2 flex items-center sm:hidden">
                                     {/* Mobile menu button */}
                                     <Disclosure.Button
-                                        className="bg-white  inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 ">
+                                        className="bg-white dark:bg-black  inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 ">
                                         <span className="sr-only">Open main menu</span>
                                         {/*here*/}
                                         <img

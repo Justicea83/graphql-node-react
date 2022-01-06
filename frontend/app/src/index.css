@@ -12,6 +12,15 @@ body {
 .full-circle{
   border-radius: 50%;
 }
+.button-color{
+  background: #2E80ED;
+}
+.button-color:hover{
+  background: #2e9aed;
+}
+.primary{
+  color: #2e9aed !important;
+}
 .material-icons{
   color: #828282;
 }
