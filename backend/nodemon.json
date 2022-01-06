@@ -2,6 +2,7 @@
   "env": {
     "MONGO_USER": "dabatech",
     "MONGO_PASSWORD": "yQB07VXGBqBdbzYI",
-    "MONGO_DB": "dabatech-test-authentication-app-dev"
+    "MONGO_DB": "dabatech-test-authentication-app-dev",
+    "JWT_SECRET" : "some super secret key"
   }
 }

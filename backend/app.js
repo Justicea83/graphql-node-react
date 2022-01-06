@@ -6,7 +6,6 @@ const app = express()
 const graphQlSchema = require('./graphql/schema/index')
 const graphQlResolvers = require('./graphql/resolvers/index')
 
-//mongodb+srv://dabatech:<password>@cluster0.wfavh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 app.use(bodyParser.json())
 
 app.use('/graphql', graphqlHTTP({
