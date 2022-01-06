@@ -7,6 +7,7 @@ module.exports = buildSchema(`
             mimetype : String!
             encoding : String!
         }
+        
         type User {
             _id: ID!
             email : String!

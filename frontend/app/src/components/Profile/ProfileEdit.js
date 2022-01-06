@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
+import {createRef, useContext, useState} from "react";
 import AuthContext from "../../context/auth-context";
 import appAxios from "../../axios";
 
@@ -8,15 +8,25 @@ export default function ProfileEdit() {
 
     const context = useContext(AuthContext)
 
+    const imageRef = createRef()
     const user = context?.user ? {...context.user} : {}
 
     const [name, setName] = useState(user?.name ? user.name : '')
     const [phone, setPhone] = useState(user?.phone ? user.phone : '')
-    const [photo, setPhoto] = useState(null)
+    const [photo, setPhoto] = useState(user?.photo ? user.photo : '')
+    const [photoToUpload, setPhotoToUpload] = useState(null)
     const [email, setEmail] = useState(user?.email ? user.email : '')
     const [password, setPassword] = useState('')
     const [bio, setBio] = useState(user?.bio ? user.bio : '')
 
+    const handleSelectImage = (event) => {
+        imageRef.current.click()
+    }
+
+    const handleImageChanged = event => {
+        setPhoto(URL.createObjectURL(event.target.files[0]))
+        setPhotoToUpload(event.target.files[0])
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -36,8 +46,7 @@ export default function ProfileEdit() {
                 bio: "${bio}",
                 name: "${name}"
                 password: "${password}"
-                
-              }) {
+              }, photo: ${photoToUpload}) {
                 phone
                 photo
                 name
@@ -57,8 +66,8 @@ export default function ProfileEdit() {
                 }
             }
         ).then(resp => {
-            const {name,phone,email,bio,photo,password} = resp.data.data.updateUserProfile
-            context.setUserDetails({name,phone,email,bio,photo,password})
+            const {name, phone, email, bio, photo, password} = resp.data.data.updateUserProfile
+            context.setUserDetails({name, phone, email, bio, photo, password})
             navigate(-1)
         })
     }
@@ -85,12 +94,15 @@ export default function ProfileEdit() {
                         </p>
 
                         <div className="flex justify-start align-middle mb-5">
-                            <div>
-                                <img className="h-12 w-auto mr-2 rounded-lg"
-                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            <div className="relative text-center cursor-pointer w-12 hover:scale-110 transform ease-out"
+                                 onClick={handleSelectImage}>
+                                <img className="h-12 w-auto rounded-lg object-cover block object-center"
+                                     src={photo}
                                      alt="profile"/>
+                                <span
+                                    className="material-icons absolute  text-sm text-white overlay-span">camera_alt</span>
                             </div>
-                            <p className="text-sm uppercase self-center">Change Photo</p>
+                            <p className="ml-4 text-sm dark:text-white uppercase self-center">Change Photo</p>
                         </div>
 
                         <form className="space-y-6" id="profile-edit-form" onSubmit={handleSubmit}>
@@ -113,6 +125,8 @@ export default function ProfileEdit() {
                                     />
                                 </div>
                             </div>
+                            <input ref={imageRef} type="file" onChange={handleImageChanged} accept="image/*"
+                                   className="hidden"/>
                             {/*bio*/}
                             <div className="flex flex-col justify-start">
                                 <label htmlFor="bio"

@@ -1,13 +1,12 @@
 const express = require('express')
 const {graphqlHTTP} = require('express-graphql')
-const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const app = express()
 const graphQlSchema = require('./graphql/schema/index')
 const graphQlResolvers = require('./graphql/resolvers/index')
 const isAuth = require('./middleware/is-auth')
 
-//app.use(bodyParser.json())
+
+const app = express()
 
 app.use(express.static(__dirname + '/public'));
 
@@ -32,7 +31,9 @@ app.use('/graphql', graphqlHTTP({
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wfavh.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`)
     .then(() => {
-        app.listen(5000)
+        app.listen({port: 5000}, () => {
+            console.log("app started and running on port: "+ 5000)
+        })
     }).catch(err => {
     console.log(err)
 })
