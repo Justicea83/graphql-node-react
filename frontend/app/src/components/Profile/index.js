@@ -1,4 +1,10 @@
+import {useContext} from "react";
+import {NavLink} from "react-router-dom";
+import AuthContext from "../../context/auth-context";
+
 export default function Profile() {
+    const context = useContext(AuthContext)
+
     return (
         <div className="min-h-full flex flex-col justify-center">
             <div className="lg:w-full sm:mx-auto sm:w-full sm:max-w-5xl">
@@ -27,11 +33,11 @@ export default function Profile() {
                                             </p>
                                         </div>
 
-                                        <a href="#"
+                                        <NavLink to="/profile/edit"
                                            className="self-end py-2 button-color px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white "
                                         >
                                             Edit
-                                        </a>
+                                        </NavLink>
                                     </div>
 
                                     <div
@@ -44,7 +50,7 @@ export default function Profile() {
                                         </div>
                                         <div className="mt-1 sm:mt-0 sm:col-span-2">
                                             <img className="h-12 w-auto mr-2 rounded-lg"
-                                                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                 src={context?.user?.photo ? context?.user?.photo : ''}
                                                  alt="profile"/>
                                         </div>
                                     </div>
@@ -59,7 +65,7 @@ export default function Profile() {
                                         </div>
 
                                         <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                            <p className="dark:text-white font-medium float-left">Xanthe Neal</p>
+                                            <p className="dark:text-white font-medium float-left">{context?.user?.name }</p>
                                         </div>
                                     </div>
 
@@ -73,8 +79,7 @@ export default function Profile() {
                                         </div>
                                         <div className="mt-1 sm:mt-0 sm:col-span-2">
                                             <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                                <p className="font-medium dark:text-white float-left">I am a software engineer and a big
-                                                    fan of football</p>
+                                                <p className="font-medium dark:text-white float-left">{context?.user?.bio}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +95,7 @@ export default function Profile() {
 
                                         <div className="mt-1 sm:mt-0 sm:col-span-2">
                                             <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                                <p className="dark:text-white font-medium float-left">Xanthe Neal</p>
+                                                <p className="dark:text-white font-medium float-left">{context?.user?.phone}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +110,7 @@ export default function Profile() {
 
                                         <div className="mt-1 sm:mt-0 sm:col-span-2">
                                             <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                                <p className="dark:text-white font-medium float-left">Xanthe@example.com</p>
+                                                <p className="dark:text-white font-medium float-left">{context?.user?.email}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -1,26 +1,42 @@
+import {useContext} from "react";
+import {NavLink, useNavigate} from "react-router-dom";
 import {Disclosure, Menu, Transition} from "@headlessui/react";
 import {Fragment, useState} from "react";
+import AuthContext from "../../context/auth-context";
 
-
-const user = {
-    name: 'Xanther Neal',
-    email: 'tom@example.com',
-    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
-
-const userNavigation = [
-    {name: 'My Profile', href: '#', icon: 'account_circle'},
-    {name: 'Group Chat', href: '#', icon: 'groups'},
-    {name: 'Logout', href: '#', icon: 'logout'},
-]
+//    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function Header() {
+    const context = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    const user = context.user ? context.user : {}
+
+    const userNavigation = [
+        {name: 'My Profile', href: '#', icon: 'account_circle', path: '/profile', action: 'navigate'},
+        {name: 'Group Chat', href: '#', icon: 'groups'},
+        {name: 'Logout', href: '#', icon: 'logout', action: 'logout'},
+    ]
 
     const [isActive, setIsActive] = useState(false)
+
+    const performAction = (item) => {
+        const {path, action} = item
+        if (!action) return;
+        if (action === 'navigate') {
+            path && navigate(path)
+        }
+        if(action === 'logout'){
+            context.logout()
+            navigate('/')
+        }
+    }
+
+
 
     return (
         <>
@@ -51,24 +67,26 @@ export default function Header() {
                                             <Menu.Button
                                                 className="max-w-xs dark:bg-black bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                 <span className="sr-only">Open user menu</span>
-                                                <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt=""/>
+                                                <img className="h-8 w-8 rounded-full" src={user?.photo ? user?.photo : ''} alt=""/>
                                                 <p className="text-sm dark:text-white font-bold mx-2">{user.name}</p>
-                                                <span className="material-icons  dark:text-white ">{isActive ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
+                                                <span
+                                                    className="material-icons  dark:text-white ">{isActive ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
                                             </Menu.Button>
                                         </div>
-                                        <Transition beforeEnter={() => setIsActive(true)} afterLeave={() => setIsActive(false)}
-                                            as={Fragment}
-                                            enter="transition ease-out duration-200"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
+                                        <Transition beforeEnter={() => setIsActive(true)}
+                                                    afterLeave={() => setIsActive(false)}
+                                                    as={Fragment}
+                                                    enter="transition ease-out duration-200"
+                                                    enterFrom="transform opacity-0 scale-95"
+                                                    enterTo="transform opacity-100 scale-100"
+                                                    leave="transition ease-in duration-75"
+                                                    leaveFrom="transform opacity-100 scale-100"
+                                                    leaveTo="transform opacity-0 scale-95"
                                         >
                                             <Menu.Items
                                                 className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 {userNavigation.map((item) => (
-                                                    <Menu.Item key={item.name}>
+                                                    <Menu.Item key={item.name} onClick={() => performAction(item)}>
                                                         {({active}) => (
                                                             <div className={classNames(
                                                                 active ? 'bg-gray-100' : '',
@@ -103,7 +121,7 @@ export default function Header() {
                                         {/*here*/}
                                         <img
                                             className="block lg:hidden h-8 w-auto full-circle"
-                                            src={user.imageUrl}
+                                            src={user?.photo ? user?.photo : ''}
                                             alt="Workflow"
                                         />
                                     </Disclosure.Button>
@@ -116,7 +134,7 @@ export default function Header() {
                             <div className="pt-4 pb-3 border-t border-gray-200">
                                 <div className="mt-3 space-y-1">
                                     {userNavigation.map((item) => (
-                                        <Disclosure.Button
+                                        <Disclosure.Button onClick={() => performAction(item)}
                                             key={item.name}
                                             as="a"
                                             href={item.href}
@@ -127,7 +145,7 @@ export default function Header() {
                                                    item.name.toLowerCase() === "logout" ? 'logout' : 'header-icons',
                                                    'material-icons mr-2 text-base')}>
                                                                     {item.icon}
-                                                                </span>  <span>{item.name}</span>
+                                                                </span> <span>{item.name}</span>
                                         </Disclosure.Button>
                                     ))}
                                 </div>

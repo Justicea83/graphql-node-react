@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const path = require('path')
 const fs = require('fs')
 
-const {formatUser} = require('../../helpers/user-helpers')
+const {formatUser, fullUrl} = require('../../helpers/user-helpers')
 
 module.exports = {
 
@@ -70,11 +70,11 @@ module.exports = {
 
         await user.save()
 
-        return formatUser(user)
+        return formatUser(user,fullUrl(req))
 
     },
 
-    login: async ({email, password}) => {
+    login: async ({email, password},req) => {
         const user = await User.findOne({email})
 
         if (!user) {
@@ -85,21 +85,24 @@ module.exports = {
             throw new Error("invalid credentials")
         }
 
+        const id = user.id
+
         const token = await jwt.sign({
-            userId: user.id,
-            email: user.email
+            userId: id,
+            email: email
         }, process.env.JWT_SECRET, {
-            expiresIn: '1h'
+            expiresIn: '5h'
         });
 
         return {
-            userId: user.id,
+            user: formatUser(user,fullUrl(req)),
             token,
             tokenExpiration: 1
         }
 
     },
-    createUser: async ({createUserInput}) => {
+
+    createUser: async ({createUserInput},req) => {
 
         if (!createUserInput)
             throw new Error("wrap input around [createUserInput]")
@@ -123,7 +126,7 @@ module.exports = {
 
         const createdUser = await newUser.save()
 
-        return formatUser(createdUser)
+        return formatUser(createdUser,fullUrl(req))
     }
 }
 
