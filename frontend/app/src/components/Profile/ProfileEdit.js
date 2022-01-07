@@ -46,7 +46,7 @@ export default function ProfileEdit() {
                 bio: "${bio}",
                 name: "${name}"
                 password: "${password}"
-              }, photo: ${photoToUpload}) {
+              }) {
                 phone
                 photo
                 name
